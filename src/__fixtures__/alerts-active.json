@@ -1,0 +1,257 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a1b2c3d4",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-93.5, 37.1], [-93.2, 37.0], [-93.1, 37.3], [-93.4, 37.4], [-93.5, 37.1]]]
+      },
+      "properties": {
+        "id": "urn:oid:2.49.0.1.840.0.a1b2c3d4",
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.a1b2c3d4",
+        "@type": "wx:Alert",
+        "areaDesc": "Greene; Christian; Webster",
+        "geocode": {
+          "SAME": ["029077", "029043", "029225"],
+          "UGC": ["MOC077", "MOC043", "MOC225"]
+        },
+        "affectedZones": ["https://api.weather.gov/zones/county/MOC077"],
+        "references": [],
+        "sent": "2024-05-01T20:00:00+00:00",
+        "effective": "2024-05-01T20:00:00+00:00",
+        "onset": "2024-05-01T20:00:00+00:00",
+        "expires": "2024-05-01T20:45:00+00:00",
+        "ends": "2024-05-01T20:45:00+00:00",
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Extreme",
+        "certainty": "Possible",
+        "urgency": "Immediate",
+        "event": "Tornado Warning",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Springfield MO",
+        "headline": "Tornado Warning issued May 1 at 3:00PM CDT until 3:45PM CDT by NWS Springfield MO",
+        "description": "AT 300 PM CDT, A SEVERE THUNDERSTORM CAPABLE OF PRODUCING A TORNADO WAS LOCATED NEAR REPUBLIC, MOVING NORTHEAST AT 45 MPH.\n\nHAZARD...TORNADO.\n\nSOURCE...RADAR INDICATED ROTATION.\n\nIMPACT...FLYING DEBRIS WILL BE DANGEROUS TO THOSE CAUGHT WITHOUT SHELTER. MOBILE HOMES WILL BE DAMAGED OR DESTROYED.",
+        "instruction": "TAKE COVER NOW! MOVE TO A BASEMENT OR AN INTERIOR ROOM ON THE LOWEST FLOOR OF A STURDY BUILDING. AVOID WINDOWS.",
+        "response": "Shelter",
+        "parameters": {
+          "AWIPSidentifier": ["TORSGF"],
+          "WMOidentifier": ["WFUS53 KSGF 012000"],
+          "NWSheadline": [
+            "TORNADO WARNING FOR NORTHERN GREENE COUNTY IN SOUTHWEST MISSOURI UNTIL 345 PM CDT"
+          ],
+          "BLOCKCHANNEL": ["EAS", "NWEM", "CMAS"],
+          "VTEC": ["/O.NEW.KSGF.TO.W.0023.240501T2000Z-240501T2045Z/"],
+          "eventEndingTime": ["2024-05-01T20:45:00+00:00"],
+          "tornadoDetection": ["RADAR INDICATED"],
+          "eventMotionDescription": ["2024-05-01T20:00:00-00:00...045DEG...45KT...37.12,-93.25"]
+        }
+      }
+    },
+    {
+      "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b2c3d4e5",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-97.7, 35.3], [-97.3, 35.2], [-97.2, 35.5], [-97.6, 35.6], [-97.7, 35.3]]]
+      },
+      "properties": {
+        "id": "urn:oid:2.49.0.1.840.0.b2c3d4e5",
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.b2c3d4e5",
+        "@type": "wx:Alert",
+        "areaDesc": "Cleveland; McClain",
+        "geocode": { "SAME": ["040027", "040087"], "UGC": ["OKC027", "OKC087"] },
+        "affectedZones": ["https://api.weather.gov/zones/county/OKC027"],
+        "references": [],
+        "sent": "2024-05-01T20:05:00+00:00",
+        "effective": "2024-05-01T20:05:00+00:00",
+        "onset": "2024-05-01T20:05:00+00:00",
+        "expires": "2024-05-01T21:00:00+00:00",
+        "ends": "2024-05-01T21:00:00+00:00",
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Extreme",
+        "certainty": "Observed",
+        "urgency": "Immediate",
+        "event": "Tornado Warning",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Norman OK",
+        "headline": "Tornado Warning issued May 1 at 3:05PM CDT until 4:00PM CDT by NWS Norman OK",
+        "description": "AT 305 PM CDT, A LARGE AND EXTREMELY DANGEROUS TORNADO WAS LOCATED NEAR NEWCASTLE, MOVING NORTHEAST AT 30 MPH.\n\nHAZARD...TORNADO.\n\nSOURCE...TRAINED WEATHER SPOTTERS CONFIRMED TORNADO.\n\nIMPACT...YOU ARE IN A LIFE-THREATENING SITUATION. FLYING DEBRIS MAY BE DEADLY TO THOSE CAUGHT WITHOUT SHELTER.",
+        "instruction": "TAKE COVER NOW! MOVE TO A BASEMENT OR AN INTERIOR ROOM ON THE LOWEST FLOOR OF A STURDY BUILDING. AVOID WINDOWS. IF YOU ARE OUTDOORS, IN A MOBILE HOME, OR IN A VEHICLE, MOVE TO THE CLOSEST SUBSTANTIAL SHELTER AND PROTECT YOURSELF FROM FLYING DEBRIS.",
+        "response": "Shelter",
+        "parameters": {
+          "AWIPSidentifier": ["TOROUN"],
+          "WMOidentifier": ["WFUS53 KOUN 012005"],
+          "NWSheadline": [
+            "TORNADO WARNING FOR NORTHERN CLEVELAND COUNTY IN CENTRAL OKLAHOMA UNTIL 400 PM CDT"
+          ],
+          "BLOCKCHANNEL": ["EAS", "NWEM", "CMAS"],
+          "VTEC": ["/O.NEW.KOUN.TO.W.0047.240501T2005Z-240501T2100Z/"],
+          "eventEndingTime": ["2024-05-01T21:00:00+00:00"],
+          "tornadoDetection": ["OBSERVED"],
+          "eventMotionDescription": ["2024-05-01T20:05:00-00:00...045DEG...30KT...35.45,-97.52"]
+        }
+      }
+    },
+    {
+      "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c3d4e5f6",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-96.1, 36.0], [-95.7, 35.9], [-95.6, 36.2], [-96.0, 36.3], [-96.1, 36.0]]]
+      },
+      "properties": {
+        "id": "urn:oid:2.49.0.1.840.0.c3d4e5f6",
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.c3d4e5f6",
+        "@type": "wx:Alert",
+        "areaDesc": "Tulsa; Rogers; Wagoner",
+        "geocode": {
+          "SAME": ["040143", "040131", "040145"],
+          "UGC": ["OKC143", "OKC131", "OKC145"]
+        },
+        "affectedZones": ["https://api.weather.gov/zones/county/OKC143"],
+        "references": [],
+        "sent": "2024-05-01T20:10:00+00:00",
+        "effective": "2024-05-01T20:10:00+00:00",
+        "onset": "2024-05-01T20:10:00+00:00",
+        "expires": "2024-05-01T21:15:00+00:00",
+        "ends": "2024-05-01T21:15:00+00:00",
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Extreme",
+        "certainty": "Possible",
+        "urgency": "Immediate",
+        "event": "Tornado Warning",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Tulsa OK",
+        "headline": "PARTICULARLY DANGEROUS SITUATION: Tornado Warning issued May 1 at 3:10PM CDT until 4:15PM CDT by NWS Tulsa OK",
+        "description": "THIS IS A PARTICULARLY DANGEROUS SITUATION.\n\nAT 310 PM CDT, A LARGE AND EXTREMELY DANGEROUS TORNADO WAS LOCATED NEAR SAPULPA, MOVING EAST AT 55 MPH.\n\nHAZARD...TORNADO. THIS IS A PARTICULARLY DANGEROUS SITUATION (PDS).\n\nSOURCE...RADAR INDICATED STRONG ROTATION.\n\nIMPACT...YOU ARE IN A LIFE-THREATENING SITUATION. CATASTROPHIC DAMAGE IS EXPECTED.",
+        "instruction": "TAKE COVER NOW! MOVE TO A BASEMENT OR AN INTERIOR ROOM ON THE LOWEST FLOOR OF A STURDY BUILDING. AVOID WINDOWS.",
+        "response": "Shelter",
+        "parameters": {
+          "AWIPSidentifier": ["TORTLX"],
+          "WMOidentifier": ["WFUS53 KTLX 012010"],
+          "NWSheadline": [
+            "PDS TORNADO WARNING FOR TULSA COUNTY IN NORTHEASTERN OKLAHOMA UNTIL 415 PM CDT"
+          ],
+          "BLOCKCHANNEL": ["EAS", "NWEM", "CMAS"],
+          "VTEC": ["/O.NEW.KTLX.TO.W.0012.240501T2010Z-240501T2115Z/"],
+          "eventEndingTime": ["2024-05-01T21:15:00+00:00"],
+          "tornadoDetection": ["RADAR INDICATED"],
+          "tornadoDamageThreat": ["CONSIDERABLE"],
+          "eventMotionDescription": ["2024-05-01T20:10:00-00:00...090DEG...55KT...36.08,-96.01"]
+        }
+      }
+    },
+    {
+      "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d4e5f6a7",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-97.6, 35.4], [-97.2, 35.3], [-97.1, 35.6], [-97.5, 35.7], [-97.6, 35.4]]]
+      },
+      "properties": {
+        "id": "urn:oid:2.49.0.1.840.0.d4e5f6a7",
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d4e5f6a7",
+        "@type": "wx:Alert",
+        "areaDesc": "Oklahoma; Cleveland; Canadian",
+        "geocode": {
+          "SAME": ["040109", "040027", "040017"],
+          "UGC": ["OKC109", "OKC027", "OKC017"]
+        },
+        "affectedZones": ["https://api.weather.gov/zones/county/OKC109"],
+        "references": [
+          {
+            "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.d4e5f6a7-orig",
+            "identifier": "urn:oid:2.49.0.1.840.0.d4e5f6a7-orig",
+            "sender": "w-nws.webmaster@noaa.gov",
+            "sent": "2024-05-01T20:00:00+00:00"
+          }
+        ],
+        "sent": "2024-05-01T20:15:00+00:00",
+        "effective": "2024-05-01T20:15:00+00:00",
+        "onset": "2024-05-01T20:15:00+00:00",
+        "expires": "2024-05-01T21:30:00+00:00",
+        "ends": "2024-05-01T21:30:00+00:00",
+        "status": "Actual",
+        "messageType": "Update",
+        "category": "Met",
+        "severity": "Extreme",
+        "certainty": "Observed",
+        "urgency": "Immediate",
+        "event": "Tornado Warning",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Norman OK",
+        "headline": "TORNADO EMERGENCY for Oklahoma City / Moore / Norman area",
+        "description": "TORNADO EMERGENCY FOR OKLAHOMA CITY, MOORE, AND NORMAN.\n\nAT 315 PM CDT, A VIOLENT AND CATASTROPHICALLY DESTRUCTIVE TORNADO WAS LOCATED OVER MOORE, MOVING NORTH AT 20 MPH.\n\nHAZARD...TORNADO EMERGENCY. A VIOLENT TORNADO IS ON THE GROUND.\n\nSOURCE...OBSERVED ON RADAR AND CONFIRMED BY EMERGENCY MANAGEMENT.\n\nIMPACT...CATASTROPHIC DAMAGE IS OCCURRING AND WILL CONTINUE. COMPLETE DESTRUCTION OF WELL-BUILT HOMES IS EXPECTED.",
+        "instruction": "THIS IS AN EXTREMELY DANGEROUS AND LIFE-THREATENING SITUATION. IF YOU ARE IN THE PATH OF THIS TORNADO, SEEK SHELTER IMMEDIATELY IN THE LOWEST LEVEL OF A WELL-BUILT STRUCTURE. DO NOT WAIT - TAKE COVER NOW!",
+        "response": "Shelter",
+        "parameters": {
+          "AWIPSidentifier": ["TOROUN"],
+          "WMOidentifier": ["WFUS53 KOUN 012015"],
+          "NWSheadline": ["TORNADO EMERGENCY FOR OKLAHOMA CITY AND MOORE"],
+          "BLOCKCHANNEL": ["EAS", "NWEM", "CMAS"],
+          "VTEC": ["/O.CON.KOUN.TO.W.0048.240501T2015Z-240501T2130Z/"],
+          "eventEndingTime": ["2024-05-01T21:30:00+00:00"],
+          "tornadoDetection": ["OBSERVED"],
+          "tornadoDamageThreat": ["CATASTROPHIC"],
+          "eventMotionDescription": ["2024-05-01T20:15:00-00:00...000DEG...20KT...35.34,-97.48"]
+        }
+      }
+    },
+    {
+      "id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e5f6a7b8",
+      "type": "Feature",
+      "geometry": null,
+      "properties": {
+        "id": "urn:oid:2.49.0.1.840.0.e5f6a7b8",
+        "@id": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.e5f6a7b8",
+        "@type": "wx:Alert",
+        "areaDesc": "Adair; Cherokee",
+        "geocode": { "SAME": ["040001", "040021"], "UGC": ["OKZ001", "OKZ021"] },
+        "affectedZones": [
+          "https://api.weather.gov/zones/county/OKZ001",
+          "https://api.weather.gov/zones/county/OKZ021"
+        ],
+        "references": [],
+        "sent": "2024-05-01T20:20:00+00:00",
+        "effective": "2024-05-01T20:20:00+00:00",
+        "onset": "2024-05-01T20:20:00+00:00",
+        "expires": "2024-05-01T21:20:00+00:00",
+        "ends": "2024-05-01T21:20:00+00:00",
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Extreme",
+        "certainty": "Possible",
+        "urgency": "Immediate",
+        "event": "Tornado Warning",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Tulsa OK",
+        "headline": "Tornado Warning issued May 1 at 3:20PM CDT until 4:20PM CDT by NWS Tulsa OK",
+        "description": "AT 320 PM CDT, A SEVERE THUNDERSTORM CAPABLE OF PRODUCING A TORNADO WAS LOCATED NEAR STILWELL, MOVING EAST AT 35 MPH.\n\nHAZARD...TORNADO.\n\nSOURCE...RADAR INDICATED ROTATION.\n\nIMPACT...FLYING DEBRIS WILL BE DANGEROUS TO THOSE CAUGHT WITHOUT SHELTER.",
+        "instruction": null,
+        "response": "Shelter",
+        "parameters": {
+          "AWIPSidentifier": ["TORTLX"],
+          "WMOidentifier": ["WFUS53 KTLX 012020"],
+          "NWSheadline": [
+            "TORNADO WARNING FOR ADAIR AND CHEROKEE COUNTIES IN EASTERN OKLAHOMA UNTIL 420 PM CDT"
+          ],
+          "BLOCKCHANNEL": ["EAS", "NWEM", "CMAS"],
+          "VTEC": ["/O.NEW.KTLX.TO.W.0013.240501T2020Z-240501T2120Z/"],
+          "eventEndingTime": ["2024-05-01T21:20:00+00:00"],
+          "tornadoDetection": ["RADAR INDICATED"]
+        }
+      }
+    }
+  ],
+  "title": "Current Active Alerts",
+  "updated": "2024-05-01T20:22:00+00:00"
+}
