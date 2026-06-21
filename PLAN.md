@@ -192,7 +192,7 @@ A buildable, deployable empty shell.
 
 ## Progress
 - [x] Phase 0 — Scaffold
-- [ ] Phase 1 — NWS data layer
+- [x] Phase 1 — NWS data layer
 - [ ] Phase 2 — Map shell
 - [ ] Phase 3 — Warning polygons
 - [ ] Phase 4 — List + detail
