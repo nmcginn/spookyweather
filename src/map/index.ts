@@ -1,5 +1,7 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
+import { startPoller } from "../nws/poller.ts";
+import { setupWarningLayers, updateWarnings } from "./warnings.ts";
 
 const CONUS_CENTER: [number, number] = [-96, 39];
 const CONUS_ZOOM = 4;
@@ -24,6 +26,15 @@ export function initMap(container: HTMLElement): maplibregl.Map {
     }),
     "top-right",
   );
+
+  map.on("load", () => {
+    setupWarningLayers(map);
+
+    startPoller({
+      onWarnings: (warnings) => updateWarnings(map, warnings),
+      onError: (err) => console.error("NWS poller error:", err),
+    });
+  });
 
   return map;
 }
