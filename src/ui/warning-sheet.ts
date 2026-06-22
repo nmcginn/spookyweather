@@ -23,6 +23,11 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   let selectedId: string | null = null;
   let isOpen = false;
 
+  // Scrim — transparent overlay that catches taps on the map while the sheet is open
+  const scrim = document.createElement("div");
+  scrim.className = "ws-scrim";
+  document.body.appendChild(scrim);
+
   // Root sheet element
   const sheet = document.createElement("div");
   sheet.className = "ws";
@@ -74,6 +79,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     sheet.classList.add("ws--open");
     sheet.classList.remove("ws--detail");
     handle.setAttribute("aria-expanded", "true");
+    scrim.classList.add("ws-scrim--visible");
   }
 
   function close() {
@@ -81,11 +87,14 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     selectedId = null;
     sheet.classList.remove("ws--open", "ws--detail");
     handle.setAttribute("aria-expanded", "false");
+    scrim.classList.remove("ws-scrim--visible");
   }
 
   function expandDetail() {
+    isOpen = true;
     sheet.classList.add("ws--open", "ws--detail");
     handle.setAttribute("aria-expanded", "true");
+    scrim.classList.add("ws-scrim--visible");
   }
 
   handle.addEventListener("click", () => {
@@ -109,6 +118,8 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
       handle.click();
     }
   });
+
+  scrim.addEventListener("click", () => close());
 
   function updateTitle() {
     const n = warnings.length;

@@ -4,6 +4,7 @@ One entry per PR, newest first. Format: `- **#N** — description.`
 
 ---
 
+- **#11** — Tapping the map above the open drawer now collapses it, returning control to the map.
 - **#10** — Add live-site link to README, GitHub link on the live site, and auto-fit the map to active warning polygons on first load.
 - **#9** — Fix SPC tray visible on load, broken close button, and reorder sections to show active watches before the day-1 outlook.
 - **#8** — Phase 6: add SPC day-1 tornado outlook and active watches panel, accessible via a map toolbar button.

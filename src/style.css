@@ -24,6 +24,20 @@ body,
   inset: 0;
 }
 
+/* ── Warning sheet scrim ─────────────────────────────────────────────────── */
+
+.ws-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  display: none;
+  cursor: pointer;
+}
+
+.ws-scrim--visible {
+  display: block;
+}
+
 /* ── Warning sheet ──────────────────────────────────────────────────────── */
 
 .ws {
