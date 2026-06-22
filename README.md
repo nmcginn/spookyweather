@@ -1,6 +1,6 @@
 # Tornado Tracker
 
-A lightweight, mobile-first, ad-free tornado warning tracker.
+**[spookyweather.pages.dev](https://spookyweather.pages.dev/)** — A lightweight, mobile-first, ad-free tornado warning tracker.
 
 All data comes from free, keyless, public-domain US government sources (NWS + SPC) plus a free NEXRAD radar tile layer. No backend — the browser talks directly to `api.weather.gov`.
 
