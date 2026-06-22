@@ -4,6 +4,7 @@ import { startPoller } from "../nws/poller.ts";
 import type { TornadoWarning } from "../nws/types.ts";
 import type { GeoJsonPolygon } from "../nws/types.ts";
 import { createRadarControl, setupRadarLayer } from "./radar.ts";
+import { createSpcControl } from "./spc-control.ts";
 import { FILL_LAYER_ID, setupWarningLayers, updateWarnings } from "./warnings.ts";
 
 const CONUS_CENTER: [number, number] = [-96, 39];
@@ -18,6 +19,7 @@ export type MapControls = {
 export type MapOptions = {
   onWarningSelect?: (id: string) => void;
   onWarningsUpdate?: (warnings: TornadoWarning[]) => void;
+  onSpcToggle?: () => void;
 };
 
 function polygonBounds(polygon: GeoJsonPolygon): [[number, number], [number, number]] {
@@ -56,6 +58,10 @@ export function initMap(container: HTMLElement, options: MapOptions = {}): MapCo
     // Radar layer sits below the warning polygons
     const radarControls = setupRadarLayer(map, FILL_LAYER_ID);
     map.addControl(createRadarControl(radarControls), "top-left");
+
+    if (options.onSpcToggle) {
+      map.addControl(createSpcControl(options.onSpcToggle), "top-left");
+    }
 
     startPoller({
       onWarnings: (warnings) => {

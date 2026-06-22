@@ -389,6 +389,170 @@ body,
   cursor: pointer;
 }
 
+/* ── SPC Outlook panel ───────────────────────────────────────────────────── */
+
+.spc {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.spc__panel {
+  background: rgba(12, 14, 20, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #f0f0f0;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.6);
+  border-radius: 12px 12px 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@media (min-width: 680px) {
+  .spc {
+    align-items: center;
+    padding: 24px;
+  }
+  .spc__panel {
+    max-width: 700px;
+    max-height: 82vh;
+    border-radius: 12px;
+  }
+}
+
+.spc__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.spc__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+.spc__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spc__timestamp {
+  font-size: 0.65rem;
+  color: #666;
+  white-space: nowrap;
+}
+
+.spc__refresh-btn,
+.spc__close-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 4px 6px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.12s, background 0.12s;
+}
+
+.spc__refresh-btn:hover,
+.spc__close-btn:hover {
+  color: #f0f0f0;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.spc__refresh-btn:focus-visible,
+.spc__close-btn:focus-visible {
+  outline: 2px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+.spc__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spc__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spc__section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffc800;
+  margin: 0;
+}
+
+.spc__img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  min-height: 40px;
+}
+
+/* ── SPC map control button ──────────────────────────────────────────────── */
+
+.spc-ctrl {
+  background: rgba(12, 14, 20, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.spc-ctrl__btn {
+  display: block;
+  width: 100%;
+  padding: 7px 12px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: color 0.12s;
+}
+
+.spc-ctrl__btn:hover {
+  color: #f0f0f0;
+}
+
+.spc-ctrl__btn:focus-visible {
+  outline: 2px solid #4a90d9;
+  outline-offset: -2px;
+}
+
 /* ── Warning popup (legacy, kept for reference) ─────────────────────────── */
 
 /* Warning popup */
