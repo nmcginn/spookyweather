@@ -401,6 +401,10 @@ body,
   justify-content: center;
 }
 
+.spc[hidden] {
+  display: none;
+}
+
 .spc__panel {
   background: rgba(12, 14, 20, 0.97);
   backdrop-filter: blur(16px);
@@ -505,6 +509,11 @@ body,
   letter-spacing: 0.08em;
   color: #ffc800;
   margin: 0;
+}
+
+.spc__section[data-secondary] .spc__section-label {
+  color: #666;
+  font-weight: 600;
 }
 
 .spc__img {
