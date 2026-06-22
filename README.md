@@ -1,4 +1,4 @@
-# Tornado Tracker
+# Spooky Weather Tracker
 
 **[spookyweather.pages.dev](https://spookyweather.pages.dev/)** — A lightweight, mobile-first, ad-free tornado warning tracker.
 

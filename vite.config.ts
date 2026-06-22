@@ -53,8 +53,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: "Tornado Tracker",
-        short_name: "TornadoTrk",
+        name: "Spooky Weather Tracker",
+        short_name: "SpookyWx",
         description:
           "Live NWS tornado, severe thunderstorm, and flash flood warnings on a map. Ad-free, keyless, fully static.",
         start_url: "/",

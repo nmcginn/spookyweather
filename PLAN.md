@@ -1,4 +1,4 @@
-# Tornado Tracker — Build Plan
+# Spooky Weather Tracker — Build Plan
 
 A lightweight, mobile-first, ad-free tornado warning tracker. All data is free,
 keyless, public-domain US government data (NWS + SPC) plus a free NEXRAD radar

@@ -1,4 +1,4 @@
-# CLAUDE.md — Tornado Tracker
+# CLAUDE.md — Spooky Weather Tracker
 
 AI coding assistant context for this repo. Read this before starting any task.
 
