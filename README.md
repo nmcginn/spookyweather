@@ -12,7 +12,7 @@ npm run dev        # start dev server
 npm run typecheck  # TypeScript strict check
 npm run lint       # Biome lint + format check
 npm test           # Vitest unit tests
-npm run build      # production build → dist/
+npm run build      # production build → dist/ (includes bundle-size check)
 ```
 
 ## Deploy
@@ -26,16 +26,17 @@ Deploys to Cloudflare Pages. The `deploy` workflow fires on every push to `maste
 
 See [PLAN.md](./PLAN.md) for the full build plan and phase breakdown.
 
-| Concern     | Choice                  |
-|-------------|-------------------------|
-| Build       | Vite + TypeScript       |
-| Map         | MapLibre GL JS (lazy)   |
-| Base tiles  | OpenFreeMap             |
-| Radar tiles | IEM NEXRAD n0q          |
-| Validation  | Zod                     |
-| Tests       | Vitest                  |
-| Lint        | Biome                   |
-| Deploy      | Cloudflare Pages        |
+| Concern     | Choice                          |
+|-------------|---------------------------------|
+| Build       | Vite + TypeScript               |
+| Map         | MapLibre GL JS (lazy-loaded)    |
+| Base tiles  | OpenFreeMap                     |
+| Radar tiles | IEM NEXRAD n0q                  |
+| Validation  | Zod                             |
+| Tests       | Vitest                          |
+| Lint        | Biome                           |
+| PWA/SW      | vite-plugin-pwa + Workbox       |
+| Deploy      | Cloudflare Pages                |
 
 ## Data sources
 

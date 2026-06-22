@@ -3,6 +3,7 @@ import maplibregl from "maplibre-gl";
 import { startPoller } from "../nws/poller.ts";
 import type { WeatherWarning } from "../nws/types.ts";
 import type { GeoJsonPolygon } from "../nws/types.ts";
+import { createAboutControl } from "./about-control.ts";
 import { createRadarControl, setupRadarLayer } from "./radar.ts";
 import { createSpcControl } from "./spc-control.ts";
 import { FILL_LAYER_ID, setupWarningLayers, updateWarnings } from "./warnings.ts";
@@ -20,6 +21,7 @@ export type MapOptions = {
   onWarningSelect?: (id: string) => void;
   onWarningsUpdate?: (warnings: WeatherWarning[]) => void;
   onSpcToggle?: () => void;
+  onAboutOpen?: () => void;
 };
 
 function polygonBounds(polygon: GeoJsonPolygon): [[number, number], [number, number]] {
@@ -88,6 +90,10 @@ export function initMap(container: HTMLElement, options: MapOptions = {}): MapCo
 
     if (options.onSpcToggle) {
       map.addControl(createSpcControl(options.onSpcToggle), "top-left");
+    }
+
+    if (options.onAboutOpen) {
+      map.addControl(createAboutControl(options.onAboutOpen), "top-left");
     }
 
     let initialFitDone = false;
