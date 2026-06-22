@@ -35,12 +35,12 @@ body,
   background: rgba(12, 14, 20, 0.93);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-radius: 16px 16px 0 0;
+  border-radius: 0;
   box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.45);
   color: #f0f0f0;
   max-height: 72px;
   overflow: hidden;
-  transition: max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.15s ease-out;
   display: flex;
   flex-direction: column;
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -59,7 +59,7 @@ body,
     bottom: 16px;
     right: 16px;
     width: 360px;
-    border-radius: 16px;
+    border-radius: 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     max-height: 72px;
   }
@@ -127,7 +127,7 @@ body,
   inset: 0;
   border-radius: 50%;
   background: #ff4400;
-  animation: ws-pulse 2s ease-out infinite;
+  animation: ws-pulse 1.2s ease-out infinite;
 }
 
 @keyframes ws-pulse {
@@ -151,7 +151,7 @@ body,
 .ws__chevron {
   font-size: 0.55rem;
   color: #666;
-  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.15s ease-out;
 }
 
 .ws--open .ws__chevron {
