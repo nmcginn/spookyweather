@@ -3,7 +3,7 @@ import type { TornadoWarning } from "../nws/types.ts";
 import { SEVERITY_COLORS, warningsToGeoJSON } from "./warning-data.ts";
 
 const SOURCE_ID = "tornado-warnings";
-const FILL_LAYER_ID = "tornado-warnings-fill";
+export const FILL_LAYER_ID = "tornado-warnings-fill";
 const LINE_LAYER_ID = "tornado-warnings-line";
 
 const COLOR_EXPR = [

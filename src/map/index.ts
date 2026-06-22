@@ -3,7 +3,8 @@ import maplibregl from "maplibre-gl";
 import { startPoller } from "../nws/poller.ts";
 import type { TornadoWarning } from "../nws/types.ts";
 import type { GeoJsonPolygon } from "../nws/types.ts";
-import { setupWarningLayers, updateWarnings } from "./warnings.ts";
+import { createRadarControl, setupRadarLayer } from "./radar.ts";
+import { FILL_LAYER_ID, setupWarningLayers, updateWarnings } from "./warnings.ts";
 
 const CONUS_CENTER: [number, number] = [-96, 39];
 const CONUS_ZOOM = 4;
@@ -51,6 +52,10 @@ export function initMap(container: HTMLElement, options: MapOptions = {}): MapCo
 
   map.on("load", () => {
     setupWarningLayers(map, options.onWarningSelect);
+
+    // Radar layer sits below the warning polygons
+    const radarControls = setupRadarLayer(map, FILL_LAYER_ID);
+    map.addControl(createRadarControl(radarControls), "top-left");
 
     startPoller({
       onWarnings: (warnings) => {
