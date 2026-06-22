@@ -1,7 +1,7 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
 import { startPoller } from "../nws/poller.ts";
-import type { TornadoWarning } from "../nws/types.ts";
+import type { WeatherWarning } from "../nws/types.ts";
 import type { GeoJsonPolygon } from "../nws/types.ts";
 import { createRadarControl, setupRadarLayer } from "./radar.ts";
 import { createSpcControl } from "./spc-control.ts";
@@ -12,13 +12,13 @@ const CONUS_ZOOM = 4;
 const BASE_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
 export type MapControls = {
-  updateWarnings: (warnings: TornadoWarning[]) => void;
-  flyToWarning: (warning: TornadoWarning) => void;
+  updateWarnings: (warnings: WeatherWarning[]) => void;
+  flyToWarning: (warning: WeatherWarning) => void;
 };
 
 export type MapOptions = {
   onWarningSelect?: (id: string) => void;
-  onWarningsUpdate?: (warnings: TornadoWarning[]) => void;
+  onWarningsUpdate?: (warnings: WeatherWarning[]) => void;
   onSpcToggle?: () => void;
 };
 
@@ -32,9 +32,9 @@ function polygonBounds(polygon: GeoJsonPolygon): [[number, number], [number, num
   ];
 }
 
-function fitToWarnings(map: maplibregl.Map, warnings: TornadoWarning[]): void {
+function fitToWarnings(map: maplibregl.Map, warnings: WeatherWarning[]): void {
   const withPolygon = warnings.filter(
-    (w): w is TornadoWarning & { polygon: GeoJsonPolygon } => w.polygon !== null,
+    (w): w is WeatherWarning & { polygon: GeoJsonPolygon } => w.polygon !== null,
   );
   if (withPolygon.length === 0) return;
 

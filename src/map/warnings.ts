@@ -1,22 +1,10 @@
 import type maplibregl from "maplibre-gl";
-import type { TornadoWarning } from "../nws/types.ts";
-import { SEVERITY_COLORS, warningsToGeoJSON } from "./warning-data.ts";
+import type { WeatherWarning } from "../nws/types.ts";
+import { warningsToGeoJSON } from "./warning-data.ts";
 
-const SOURCE_ID = "tornado-warnings";
-export const FILL_LAYER_ID = "tornado-warnings-fill";
-const LINE_LAYER_ID = "tornado-warnings-line";
-
-const COLOR_EXPR = [
-  "match",
-  ["get", "severity"],
-  "CATASTROPHIC",
-  SEVERITY_COLORS.CATASTROPHIC,
-  "CONSIDERABLE",
-  SEVERITY_COLORS.CONSIDERABLE,
-  "OBSERVED",
-  SEVERITY_COLORS.OBSERVED,
-  SEVERITY_COLORS.STANDARD,
-] as unknown as maplibregl.AddLayerObject;
+const SOURCE_ID = "weather-warnings";
+export const FILL_LAYER_ID = "weather-warnings-fill";
+const LINE_LAYER_ID = "weather-warnings-line";
 
 export function setupWarningLayers(map: maplibregl.Map, onSelect?: (id: string) => void): void {
   map.addSource(SOURCE_ID, {
@@ -29,7 +17,7 @@ export function setupWarningLayers(map: maplibregl.Map, onSelect?: (id: string) 
     type: "fill",
     source: SOURCE_ID,
     paint: {
-      "fill-color": COLOR_EXPR,
+      "fill-color": ["get", "color"],
       "fill-opacity": 0.35,
     },
   } as unknown as maplibregl.AddLayerObject);
@@ -39,7 +27,7 @@ export function setupWarningLayers(map: maplibregl.Map, onSelect?: (id: string) 
     type: "line",
     source: SOURCE_ID,
     paint: {
-      "line-color": COLOR_EXPR,
+      "line-color": ["get", "color"],
       "line-width": 2,
     },
   } as unknown as maplibregl.AddLayerObject);
@@ -60,7 +48,7 @@ export function setupWarningLayers(map: maplibregl.Map, onSelect?: (id: string) 
   });
 }
 
-export function updateWarnings(map: maplibregl.Map, warnings: TornadoWarning[]): void {
+export function updateWarnings(map: maplibregl.Map, warnings: WeatherWarning[]): void {
   const source = map.getSource(SOURCE_ID) as maplibregl.GeoJSONSource | undefined;
   if (!source) return;
   source.setData(warningsToGeoJSON(warnings) as unknown as GeoJSON.GeoJSON);

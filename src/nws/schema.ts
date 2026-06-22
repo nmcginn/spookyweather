@@ -10,6 +10,9 @@ const NwsParametersSchema = z
     VTEC: z.array(z.string()).optional(),
     tornadoDetection: z.array(z.string()).optional(),
     tornadoDamageThreat: z.array(z.string()).optional(),
+    thunderstormDamageThreat: z.array(z.string()).optional(),
+    flashFloodDetection: z.array(z.string()).optional(),
+    flashFloodDamageThreat: z.array(z.string()).optional(),
     eventMotionDescription: z.array(z.string()).optional(),
   })
   .passthrough();
@@ -17,6 +20,7 @@ const NwsParametersSchema = z
 const NwsPropertiesSchema = z
   .object({
     id: z.string(),
+    event: z.string(),
     areaDesc: z.string(),
     sent: z.string(),
     expires: z.string(),
