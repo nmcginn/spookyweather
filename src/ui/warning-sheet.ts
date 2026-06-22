@@ -17,6 +17,29 @@ function formatExpiry(isoString: string): { text: string; urgent: boolean } {
   return { text: `${minsLeft} min remaining`, urgent: false };
 }
 
+function onSwipe(el: HTMLElement, onDown?: () => void, onUp?: () => void, threshold = 60) {
+  let y0 = 0;
+  el.addEventListener(
+    "touchstart",
+    (e) => {
+      y0 = e.touches[0]?.clientY ?? 0;
+    },
+    { passive: true },
+  );
+  el.addEventListener("touchend", (e) => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    const dy = touch.clientY - y0;
+    if (dy > threshold && onDown) {
+      e.preventDefault();
+      onDown();
+    } else if (dy < -threshold && onUp) {
+      e.preventDefault();
+      onUp();
+    }
+  });
+}
+
 export function createWarningSheet(options: WarningSheetOptions): WarningSheetControls {
   const { onFlyTo } = options;
   let warnings: TornadoWarning[] = [];
@@ -120,6 +143,17 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   });
 
   scrim.addEventListener("click", () => close());
+
+  onSwipe(
+    handle,
+    () => {
+      if (isOpen) close();
+    },
+    () => {
+      if (!isOpen) open();
+    },
+  );
+  onSwipe(scrim, () => close());
 
   function updateTitle() {
     const n = warnings.length;
