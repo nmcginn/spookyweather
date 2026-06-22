@@ -21,7 +21,7 @@ function makeSection(label: string): { section: HTMLElement; img: HTMLImageEleme
   const img = document.createElement("img");
   img.className = "spc__img";
   img.alt = label;
-  img.loading = "lazy";
+  img.loading = "eager";
   section.appendChild(img);
 
   return { section, img };
@@ -79,10 +79,11 @@ export function createSpcPanel(): SpcPanelControls {
   const body = document.createElement("div");
   body.className = "spc__body";
 
-  const { section: outlookSection, img: outlookImg } = makeSection("Day 1 Tornado Outlook");
   const { section: watchesSection, img: watchesImg } = makeSection("Active Tornado Watches");
-  body.appendChild(outlookSection);
+  const { section: outlookSection, img: outlookImg } = makeSection("Day 1 Tornado Outlook");
+  outlookSection.dataset.secondary = "true";
   body.appendChild(watchesSection);
+  body.appendChild(outlookSection);
   panel.appendChild(body);
 
   overlay.appendChild(panel);
