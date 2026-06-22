@@ -1,6 +1,7 @@
 import "./style.css";
 import type { MapControls } from "./map/index.ts";
 import type { WeatherWarning } from "./nws/types.ts";
+import { createAboutPanel } from "./ui/about-panel.ts";
 import { createSpcPanel } from "./ui/spc-panel.ts";
 import { createWarningSheet } from "./ui/warning-sheet.ts";
 
@@ -24,6 +25,7 @@ const sheet = createWarningSheet({
 });
 
 const spcPanel = createSpcPanel();
+const aboutPanel = createAboutPanel();
 
 import("./map/index.ts").then(({ initMap }) => {
   mapControls = initMap(mapContainer, {
@@ -34,5 +36,6 @@ import("./map/index.ts").then(({ initMap }) => {
       sheet.updateLastRefreshed(new Date());
     },
     onSpcToggle: () => spcPanel.toggle(),
+    onAboutOpen: () => aboutPanel.open(),
   });
 });

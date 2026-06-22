@@ -89,9 +89,7 @@ Keep it factual and under ~120 characters. No implementation detail, no bullet s
 | 4 | Warning list + detail | ✅ done |
 | 5 | Radar overlay | ✅ done |
 | 6 | SPC outlook + watches | ✅ done |
-| 7 | Polish & ship | 🔲 next |
-
-**Phase 7 scope:** PWA manifest + icons (installable, no push), offline app shell, Lighthouse/perf pass, bundle budget enforcement, meta/OG tags, favicon, accessibility pass, small About page.
+| 7 | Polish & ship | ✅ done |
 
 ---
 
