@@ -4,6 +4,8 @@ One entry per PR, newest first. Format: `- **#N** — description.`
 
 ---
 
+- **#18** — Remove PLAN.md now that all phases are shipped; fold data-source specs, dedup rules, and color semantics into README/CLAUDE.md.
+- **#17** — Rebrand app from "Tornado Tracker" to "Spooky Weather Tracker" across page title, PWA manifest, about panel, and docs.
 - **#16** — Phase 7: PWA manifest + icons, offline app shell via Workbox, meta/OG tags, skip link, About panel, and enforced 50 kB gzip initial-JS budget.
 - **#12** — Add Severe Thunderstorm and Flash Flood warnings alongside Tornado Warnings, with per-type colors and a filter bar to toggle which alert types are shown.
 - **#11** — Mobile usability pass: swipe gestures to open/close the drawer and SPC panel, larger touch targets, and tap-highlight suppression.

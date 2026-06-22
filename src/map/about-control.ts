@@ -11,7 +11,7 @@ export function createAboutControl(onOpen: () => void): maplibregl.IControl {
       const btn = document.createElement("button");
       btn.className = "spc-ctrl__btn";
       btn.type = "button";
-      btn.setAttribute("aria-label", "About Tornado Tracker");
+      btn.setAttribute("aria-label", "About Spooky Weather Tracker");
       btn.textContent = "?";
       btn.addEventListener("click", onOpen);
 

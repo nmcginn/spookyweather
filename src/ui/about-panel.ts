@@ -4,14 +4,14 @@ export function createAboutPanel(): { open: () => void } {
   backdrop.setAttribute("hidden", "");
   backdrop.setAttribute("role", "dialog");
   backdrop.setAttribute("aria-modal", "true");
-  backdrop.setAttribute("aria-label", "About Tornado Tracker");
+  backdrop.setAttribute("aria-label", "About Spooky Weather Tracker");
 
   const panel = document.createElement("div");
   panel.className = "about-panel";
 
   panel.innerHTML = `
     <div class="about__header">
-      <h2 class="about__title">Tornado Tracker</h2>
+      <h2 class="about__title">Spooky Weather Tracker</h2>
       <button class="about__close" aria-label="Close about panel">✕</button>
     </div>
     <div class="about__body">
