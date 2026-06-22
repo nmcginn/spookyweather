@@ -32,6 +32,33 @@ function polygonBounds(polygon: GeoJsonPolygon): [[number, number], [number, num
   ];
 }
 
+function fitToWarnings(map: maplibregl.Map, warnings: TornadoWarning[]): void {
+  const withPolygon = warnings.filter(
+    (w): w is TornadoWarning & { polygon: GeoJsonPolygon } => w.polygon !== null,
+  );
+  if (withPolygon.length === 0) return;
+
+  const combined = withPolygon.reduce<[[number, number], [number, number]]>(
+    (acc, w) => {
+      const b = polygonBounds(w.polygon);
+      return [
+        [Math.min(acc[0][0], b[0][0]), Math.min(acc[0][1], b[0][1])],
+        [Math.max(acc[1][0], b[1][0]), Math.max(acc[1][1], b[1][1])],
+      ];
+    },
+    [
+      [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY],
+      [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY],
+    ],
+  );
+
+  map.fitBounds(combined, {
+    padding: { top: 80, right: 80, bottom: 120, left: 80 },
+    maxZoom: 8,
+    duration: 1200,
+  });
+}
+
 export function initMap(container: HTMLElement, options: MapOptions = {}): MapControls {
   const map = new maplibregl.Map({
     container,
@@ -63,10 +90,16 @@ export function initMap(container: HTMLElement, options: MapOptions = {}): MapCo
       map.addControl(createSpcControl(options.onSpcToggle), "top-left");
     }
 
+    let initialFitDone = false;
+
     startPoller({
       onWarnings: (warnings) => {
         updateWarnings(map, warnings);
         options.onWarningsUpdate?.(warnings);
+        if (!initialFitDone) {
+          initialFitDone = true;
+          fitToWarnings(map, warnings);
+        }
       },
       onError: (err) => console.error("NWS poller error:", err),
     });
