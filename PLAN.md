@@ -194,7 +194,7 @@ A buildable, deployable empty shell.
 - [x] Phase 0 — Scaffold
 - [x] Phase 1 — NWS data layer
 - [x] Phase 2 — Map shell
-- [ ] Phase 3 — Warning polygons
+- [x] Phase 3 — Warning polygons
 - [ ] Phase 4 — List + detail
 - [ ] Phase 5 — Radar overlay
 - [ ] Phase 6 — SPC outlook + watches

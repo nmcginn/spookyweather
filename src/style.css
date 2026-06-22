@@ -23,3 +23,69 @@ body,
   position: absolute;
   inset: 0;
 }
+
+/* Warning popup */
+.warning-popup {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: #1a1a1a;
+}
+
+.warning-popup__severity {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+}
+
+.warning-popup__severity--standard {
+  background: #ff4400;
+  color: #fff;
+}
+
+.warning-popup__severity--observed {
+  background: #ff0000;
+  color: #fff;
+}
+
+.warning-popup__severity--considerable {
+  background: #8b0000;
+  color: #fff;
+}
+
+.warning-popup__severity--catastrophic {
+  background: #ff69b4;
+  color: #000;
+}
+
+.warning-popup__sender {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.warning-popup__counties {
+  color: #555;
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+}
+
+.warning-popup__expiry {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+}
+
+.warning-popup__description {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.75rem;
+  color: #444;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
