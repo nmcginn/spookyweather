@@ -207,6 +207,14 @@ body,
   outline-offset: 2px;
 }
 
+.ws__refresh-time {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: #888;
+  white-space: nowrap;
+  align-self: center;
+}
+
 /* Scrollable content */
 .ws__content {
   flex: 1;

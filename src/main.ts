@@ -31,6 +31,7 @@ import("./map/index.ts").then(({ initMap }) => {
     onWarningsUpdate: (warnings) => {
       allWarnings = warnings;
       sheet.updateWarnings(warnings);
+      sheet.updateLastRefreshed(new Date());
     },
     onSpcToggle: () => spcPanel.toggle(),
   });

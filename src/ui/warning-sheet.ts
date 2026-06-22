@@ -11,6 +11,7 @@ export type WarningSheetOptions = {
 export type WarningSheetControls = {
   updateWarnings: (warnings: WeatherWarning[]) => void;
   selectWarning: (id: string) => void;
+  updateLastRefreshed: (ts: Date) => void;
 };
 
 const EVENT_CHIP_LABELS: Record<SupportedEventType, string> = {
@@ -112,6 +113,9 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
 
   const chipEls = new Map<SupportedEventType, HTMLButtonElement>();
 
+  const refreshTime = document.createElement("span");
+  refreshTime.className = "ws__refresh-time";
+
   for (const eventType of SUPPORTED_EVENT_TYPES) {
     const chip = document.createElement("button");
     chip.className = "ws__filter-chip ws__filter-chip--on";
@@ -139,6 +143,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     filterRow.appendChild(chip);
   }
 
+  filterRow.appendChild(refreshTime);
   sheet.appendChild(filterRow);
 
   // Scrollable content
@@ -373,6 +378,9 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   }
 
   return {
+    updateLastRefreshed(ts: Date) {
+      refreshTime.textContent = `Updated ${ts.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}`;
+    },
     updateWarnings(newWarnings: WeatherWarning[]) {
       warnings = [...newWarnings].sort(
         (a, b) => new Date(b.sent).getTime() - new Date(a.sent).getTime(),
