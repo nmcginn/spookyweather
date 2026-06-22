@@ -2,6 +2,20 @@ import type { TornadoWarning } from "../nws/types.ts";
 
 export type WarningSeverity = "CATASTROPHIC" | "CONSIDERABLE" | "OBSERVED" | "STANDARD";
 
+export const SEVERITY_COLORS: Record<WarningSeverity, string> = {
+  STANDARD: "#FF4400",
+  OBSERVED: "#FF0000",
+  CONSIDERABLE: "#8B0000",
+  CATASTROPHIC: "#FF69B4",
+};
+
+export const SEVERITY_LABELS: Record<WarningSeverity, string> = {
+  STANDARD: "TORNADO WARNING",
+  OBSERVED: "TORNADO WARNING (OBSERVED)",
+  CONSIDERABLE: "PDS TORNADO WARNING",
+  CATASTROPHIC: "TORNADO EMERGENCY",
+};
+
 export type WarningProperties = {
   id: string;
   severity: WarningSeverity;
