@@ -1,13 +1,35 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
 import { startPoller } from "../nws/poller.ts";
+import type { TornadoWarning } from "../nws/types.ts";
+import type { GeoJsonPolygon } from "../nws/types.ts";
 import { setupWarningLayers, updateWarnings } from "./warnings.ts";
 
 const CONUS_CENTER: [number, number] = [-96, 39];
 const CONUS_ZOOM = 4;
 const BASE_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
-export function initMap(container: HTMLElement): maplibregl.Map {
+export type MapControls = {
+  updateWarnings: (warnings: TornadoWarning[]) => void;
+  flyToWarning: (warning: TornadoWarning) => void;
+};
+
+export type MapOptions = {
+  onWarningSelect?: (id: string) => void;
+  onWarningsUpdate?: (warnings: TornadoWarning[]) => void;
+};
+
+function polygonBounds(polygon: GeoJsonPolygon): [[number, number], [number, number]] {
+  const coords = polygon.coordinates.flat();
+  const lngs = coords.map((c) => c[0] as number);
+  const lats = coords.map((c) => c[1] as number);
+  return [
+    [Math.min(...lngs), Math.min(...lats)],
+    [Math.max(...lngs), Math.max(...lats)],
+  ];
+}
+
+export function initMap(container: HTMLElement, options: MapOptions = {}): MapControls {
   const map = new maplibregl.Map({
     container,
     style: BASE_STYLE,
@@ -28,13 +50,23 @@ export function initMap(container: HTMLElement): maplibregl.Map {
   );
 
   map.on("load", () => {
-    setupWarningLayers(map);
+    setupWarningLayers(map, options.onWarningSelect);
 
     startPoller({
-      onWarnings: (warnings) => updateWarnings(map, warnings),
+      onWarnings: (warnings) => {
+        updateWarnings(map, warnings);
+        options.onWarningsUpdate?.(warnings);
+      },
       onError: (err) => console.error("NWS poller error:", err),
     });
   });
 
-  return map;
+  return {
+    updateWarnings: (warnings) => updateWarnings(map, warnings),
+    flyToWarning: (warning) => {
+      if (!warning.polygon) return;
+      const bounds = polygonBounds(warning.polygon);
+      map.fitBounds(bounds, { padding: 80, maxZoom: 10, duration: 800 });
+    },
+  };
 }
