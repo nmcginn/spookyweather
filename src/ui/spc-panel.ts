@@ -114,6 +114,23 @@ export function createSpcPanel(): SpcPanelControls {
     if (e.target === overlay) close();
   });
 
+  // Swipe the header down to dismiss
+  let swipeY0 = 0;
+  header.addEventListener(
+    "touchstart",
+    (e) => {
+      swipeY0 = e.touches[0]?.clientY ?? 0;
+    },
+    { passive: true },
+  );
+  header.addEventListener("touchend", (e) => {
+    const touch = e.changedTouches[0];
+    if (touch && touch.clientY - swipeY0 > 60) {
+      e.preventDefault();
+      close();
+    }
+  });
+
   // Close on Escape
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !overlay.hidden) close();

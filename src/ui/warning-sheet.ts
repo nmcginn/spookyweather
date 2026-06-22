@@ -17,11 +17,39 @@ function formatExpiry(isoString: string): { text: string; urgent: boolean } {
   return { text: `${minsLeft} min remaining`, urgent: false };
 }
 
+function onSwipe(el: HTMLElement, onDown?: () => void, onUp?: () => void, threshold = 60) {
+  let y0 = 0;
+  el.addEventListener(
+    "touchstart",
+    (e) => {
+      y0 = e.touches[0]?.clientY ?? 0;
+    },
+    { passive: true },
+  );
+  el.addEventListener("touchend", (e) => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    const dy = touch.clientY - y0;
+    if (dy > threshold && onDown) {
+      e.preventDefault();
+      onDown();
+    } else if (dy < -threshold && onUp) {
+      e.preventDefault();
+      onUp();
+    }
+  });
+}
+
 export function createWarningSheet(options: WarningSheetOptions): WarningSheetControls {
   const { onFlyTo } = options;
   let warnings: TornadoWarning[] = [];
   let selectedId: string | null = null;
   let isOpen = false;
+
+  // Scrim — transparent overlay that catches taps on the map while the sheet is open
+  const scrim = document.createElement("div");
+  scrim.className = "ws-scrim";
+  document.body.appendChild(scrim);
 
   // Root sheet element
   const sheet = document.createElement("div");
@@ -74,6 +102,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     sheet.classList.add("ws--open");
     sheet.classList.remove("ws--detail");
     handle.setAttribute("aria-expanded", "true");
+    scrim.classList.add("ws-scrim--visible");
   }
 
   function close() {
@@ -81,11 +110,14 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     selectedId = null;
     sheet.classList.remove("ws--open", "ws--detail");
     handle.setAttribute("aria-expanded", "false");
+    scrim.classList.remove("ws-scrim--visible");
   }
 
   function expandDetail() {
+    isOpen = true;
     sheet.classList.add("ws--open", "ws--detail");
     handle.setAttribute("aria-expanded", "true");
+    scrim.classList.add("ws-scrim--visible");
   }
 
   handle.addEventListener("click", () => {
@@ -109,6 +141,19 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
       handle.click();
     }
   });
+
+  scrim.addEventListener("click", () => close());
+
+  onSwipe(
+    handle,
+    () => {
+      if (isOpen) close();
+    },
+    () => {
+      if (!isOpen) open();
+    },
+  );
+  onSwipe(scrim, () => close());
 
   function updateTitle() {
     const n = warnings.length;

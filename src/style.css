@@ -4,6 +4,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -22,6 +23,21 @@ body,
 #map {
   position: absolute;
   inset: 0;
+}
+
+/* ── Warning sheet scrim ─────────────────────────────────────────────────── */
+
+.ws-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  display: none;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.ws-scrim--visible {
+  display: block;
 }
 
 /* ── Warning sheet ──────────────────────────────────────────────────────── */
@@ -244,7 +260,7 @@ body,
   font-size: 0.8rem;
   font-family: inherit;
   cursor: pointer;
-  padding: 8px 0 14px;
+  padding: 12px 0 16px;
   display: block;
   line-height: 1;
 }
@@ -349,7 +365,7 @@ body,
 .radar-ctrl__btn {
   display: block;
   width: 100%;
-  padding: 7px 12px;
+  padding: 11px 12px;
   background: none;
   border: none;
   color: #666;
@@ -468,10 +484,15 @@ body,
   font-size: 0.9rem;
   cursor: pointer;
   font-family: inherit;
-  padding: 4px 6px;
+  padding: 0 10px;
   border-radius: 4px;
   line-height: 1;
   transition: color 0.12s, background 0.12s;
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .spc__refresh-btn:hover,
@@ -540,7 +561,7 @@ body,
 .spc-ctrl__btn {
   display: block;
   width: 100%;
-  padding: 7px 12px;
+  padding: 11px 12px;
   background: none;
   border: none;
   color: #888;
