@@ -8,8 +8,6 @@ AI coding assistant context for this repo. Read this before starting any task.
 
 A lightweight, mobile-first, ad-free tornado warning tracker. Fully static — no backend. The browser talks directly to `api.weather.gov`. Deployable to Cloudflare Pages at zero cost.
 
-See [PLAN.md](./PLAN.md) for the full architecture, data-source specs, and normalized types.
-
 ---
 
 ## Commands
@@ -51,6 +49,8 @@ No framework. Vanilla TypeScript + direct DOM. MapLibre is the only heavy depend
 - **Fixtures for every data-layer change.** Unit tests in `src/nws/` and `src/map/warning-data.test.ts` run against `src/__fixtures__/alerts-active.json`. If you change the schema or normalization, update the fixture tests too.
 - **Performance budget:** Initial JS (excluding lazy MapLibre) must stay under ~50 KB gzip. Don't add heavy deps without discussion.
 - **No comments that describe what the code does.** Only add a comment when the *why* is non-obvious (hidden constraint, subtle invariant, external workaround).
+- **Dedup/lifecycle:** Group warnings by VTEC event (office + phenomena + ETN), keeping the latest `Update`. A `Cancel` removes the event from the active set. Drop anything past `expires` client-side — don't wait for the next poll.
+- **Warning color semantics:** radar-indicated → standard; `OBSERVED` (confirmed tornado) → stronger; `CONSIDERABLE` (PDS) → escalated; `CATASTROPHIC` (Tornado Emergency) → max-severity/distinct treatment.
 
 ---
 
@@ -59,7 +59,7 @@ No framework. Vanilla TypeScript + direct DOM. MapLibre is the only heavy depend
 - **One phase = one PR, as a convention.** Hotfixes and isolated polish tweaks may be standalone PRs outside the phase sequence — that's fine. The convention exists to keep PRs reviewable, not as a rigid gate.
 - **Squash merge + auto-delete branches.** All PRs are squash-merged and the branch is deleted on merge. When starting new work after a merge, always `git pull origin master` and branch from the updated `master` — never continue on a merged branch.
 - **Every PR → one entry in [CHANGELOG.md](./CHANGELOG.md).** Format: `- **#N** — <one succinct sentence>.` Add it in the same PR. See the Changelog rule section below.
-- **Every PR → documentation pass.** Before marking a PR ready, check that `PLAN.md`, `README.md`, and `CLAUDE.md` are still accurate. Update anything the code change made stale — phase progress checkboxes, data-source notes, architecture descriptions, command outputs.
+- **Every PR → documentation pass.** Before marking a PR ready, check that `README.md` and `CLAUDE.md` are still accurate. Update anything the code change made stale — phase progress checkboxes, data-source notes, architecture descriptions, command outputs.
 - **Conventional commits:** `feat:`, `fix:`, `chore:`, `test:`, `docs:`. No tool or session attribution in commit messages.
 - **Every PR must be green:** typecheck + lint + tests + build all pass in CI before merge.
 - **Stop at phase boundaries** for review before starting the next phase.
