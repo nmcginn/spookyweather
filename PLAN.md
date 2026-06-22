@@ -197,5 +197,5 @@ A buildable, deployable empty shell.
 - [x] Phase 3 — Warning polygons
 - [x] Phase 4 — List + detail
 - [x] Phase 5 — Radar overlay
-- [ ] Phase 6 — SPC outlook + watches
+- [x] Phase 6 — SPC outlook + watches
 - [ ] Phase 7 — Polish & ship
