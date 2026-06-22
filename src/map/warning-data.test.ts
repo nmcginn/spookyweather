@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
-import type { TornadoWarning } from "../nws/types.ts";
-import { warningSeverity, warningToFeature, warningsToGeoJSON } from "./warning-data.ts";
+import type { WeatherWarning } from "../nws/types.ts";
+import {
+  warningColor,
+  warningLabel,
+  warningSeverity,
+  warningToFeature,
+  warningsToGeoJSON,
+} from "./warning-data.ts";
 
 const POLYGON = {
   type: "Polygon" as const,
@@ -17,9 +23,10 @@ const POLYGON = {
 
 const FUTURE = "2099-12-31T23:59:59+00:00";
 
-function makeWarning(overrides: Partial<TornadoWarning>): TornadoWarning {
+function makeWarning(overrides: Partial<WeatherWarning>): WeatherWarning {
   return {
     id: "test-id",
+    eventType: "Tornado Warning",
     vtec: "/O.NEW.KSGF.TO.W.0001.240501T2000Z-240501T2100Z/",
     messageType: "Alert",
     polygon: POLYGON,
@@ -59,6 +66,14 @@ describe("warningSeverity", () => {
     ).toBe("CONSIDERABLE");
   });
 
+  it("returns CONSIDERABLE for DESTRUCTIVE thunderstorm threats", () => {
+    expect(
+      warningSeverity(
+        makeWarning({ eventType: "Severe Thunderstorm Warning", damageThreat: "DESTRUCTIVE" }),
+      ),
+    ).toBe("CONSIDERABLE");
+  });
+
   it("returns CATASTROPHIC for tornado emergency regardless of detection", () => {
     expect(warningSeverity(makeWarning({ damageThreat: "CATASTROPHIC" }))).toBe("CATASTROPHIC");
     expect(
@@ -71,6 +86,58 @@ describe("warningSeverity", () => {
     expect(
       warningSeverity(makeWarning({ detection: "OBSERVED", damageThreat: "CATASTROPHIC" })),
     ).toBe("CATASTROPHIC");
+  });
+});
+
+// --- warningColor ---
+
+describe("warningColor", () => {
+  it("returns tornado colors for Tornado Warning", () => {
+    expect(warningColor(makeWarning({}))).toBe("#FF4400");
+    expect(warningColor(makeWarning({ damageThreat: "CATASTROPHIC" }))).toBe("#FF69B4");
+  });
+
+  it("returns amber colors for Severe Thunderstorm Warning", () => {
+    expect(warningColor(makeWarning({ eventType: "Severe Thunderstorm Warning" }))).toBe("#DAA520");
+    expect(
+      warningColor(
+        makeWarning({ eventType: "Severe Thunderstorm Warning", damageThreat: "DESTRUCTIVE" }),
+      ),
+    ).toBe("#FF8C00");
+  });
+
+  it("returns green colors for Flash Flood Warning", () => {
+    expect(warningColor(makeWarning({ eventType: "Flash Flood Warning" }))).toBe("#00AA00");
+  });
+
+  it("returns a fallback color for unknown event types", () => {
+    expect(warningColor(makeWarning({ eventType: "Unknown Event" }))).toBe("#888888");
+  });
+});
+
+// --- warningLabel ---
+
+describe("warningLabel", () => {
+  it("returns TORNADO WARNING for standard tornado warning", () => {
+    expect(warningLabel(makeWarning({}))).toBe("TORNADO WARNING");
+  });
+
+  it("returns TORNADO EMERGENCY for catastrophic tornado warning", () => {
+    expect(warningLabel(makeWarning({ damageThreat: "CATASTROPHIC" }))).toBe("TORNADO EMERGENCY");
+  });
+
+  it("returns DESTRUCTIVE label for destructive thunderstorm", () => {
+    expect(
+      warningLabel(
+        makeWarning({ eventType: "Severe Thunderstorm Warning", damageThreat: "DESTRUCTIVE" }),
+      ),
+    ).toBe("DESTRUCTIVE TSTORM WARNING");
+  });
+
+  it("returns FLASH FLOOD WARNING for standard flood", () => {
+    expect(warningLabel(makeWarning({ eventType: "Flash Flood Warning" }))).toBe(
+      "FLASH FLOOD WARNING",
+    );
   });
 });
 
@@ -97,6 +164,16 @@ describe("warningToFeature", () => {
   it("sets severity in properties", () => {
     const feature = warningToFeature(makeWarning({ damageThreat: "CATASTROPHIC" }));
     expect(feature?.properties.severity).toBe("CATASTROPHIC");
+  });
+
+  it("sets eventType in properties", () => {
+    const feature = warningToFeature(makeWarning({ eventType: "Flash Flood Warning" }));
+    expect(feature?.properties.eventType).toBe("Flash Flood Warning");
+  });
+
+  it("sets precomputed color in properties", () => {
+    const feature = warningToFeature(makeWarning({ eventType: "Flash Flood Warning" }));
+    expect(feature?.properties.color).toBe("#00AA00");
   });
 
   it("copies core fields to properties", () => {

@@ -1,13 +1,28 @@
-import { SEVERITY_COLORS, SEVERITY_LABELS, warningSeverity } from "../map/warning-data.ts";
-import type { TornadoWarning } from "../nws/types.ts";
+import { warningColor, warningLabel } from "../map/warning-data.ts";
+import type { SupportedEventType } from "../nws/poller.ts";
+import { SUPPORTED_EVENT_TYPES } from "../nws/poller.ts";
+import type { WeatherWarning } from "../nws/types.ts";
 
 export type WarningSheetOptions = {
-  onFlyTo: (warning: TornadoWarning) => void;
+  onFlyTo: (warning: WeatherWarning) => void;
+  onFilterChange: (activeTypes: Set<SupportedEventType>) => void;
 };
 
 export type WarningSheetControls = {
-  updateWarnings: (warnings: TornadoWarning[]) => void;
+  updateWarnings: (warnings: WeatherWarning[]) => void;
   selectWarning: (id: string) => void;
+};
+
+const EVENT_CHIP_LABELS: Record<SupportedEventType, string> = {
+  "Tornado Warning": "TORNADO",
+  "Severe Thunderstorm Warning": "TSTORM",
+  "Flash Flood Warning": "FLOOD",
+};
+
+const EVENT_CHIP_COLORS: Record<SupportedEventType, string> = {
+  "Tornado Warning": "#FF4400",
+  "Severe Thunderstorm Warning": "#DAA520",
+  "Flash Flood Warning": "#00AA00",
 };
 
 function formatExpiry(isoString: string): { text: string; urgent: boolean } {
@@ -41,10 +56,11 @@ function onSwipe(el: HTMLElement, onDown?: () => void, onUp?: () => void, thresh
 }
 
 export function createWarningSheet(options: WarningSheetOptions): WarningSheetControls {
-  const { onFlyTo } = options;
-  let warnings: TornadoWarning[] = [];
+  const { onFlyTo, onFilterChange } = options;
+  let warnings: WeatherWarning[] = [];
   let selectedId: string | null = null;
   let isOpen = false;
+  const activeTypes = new Set<SupportedEventType>(SUPPORTED_EVENT_TYPES);
 
   // Scrim — transparent overlay that catches taps on the map while the sheet is open
   const scrim = document.createElement("div");
@@ -55,7 +71,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   const sheet = document.createElement("div");
   sheet.className = "ws";
   sheet.setAttribute("role", "complementary");
-  sheet.setAttribute("aria-label", "Tornado Warnings");
+  sheet.setAttribute("aria-label", "Weather Warnings");
 
   // Toggle handle
   const handle = document.createElement("div");
@@ -89,6 +105,41 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   handle.appendChild(pill);
   handle.appendChild(headerRow);
   sheet.appendChild(handle);
+
+  // Filter chips row
+  const filterRow = document.createElement("div");
+  filterRow.className = "ws__filter-row";
+
+  const chipEls = new Map<SupportedEventType, HTMLButtonElement>();
+
+  for (const eventType of SUPPORTED_EVENT_TYPES) {
+    const chip = document.createElement("button");
+    chip.className = "ws__filter-chip ws__filter-chip--on";
+    chip.textContent = EVENT_CHIP_LABELS[eventType];
+    chip.style.setProperty("--chip-color", EVENT_CHIP_COLORS[eventType]);
+    chip.setAttribute("aria-pressed", "true");
+    chip.setAttribute("aria-label", `Toggle ${eventType}`);
+    chip.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (activeTypes.has(eventType)) {
+        if (activeTypes.size === 1) return; // keep at least one type active
+        activeTypes.delete(eventType);
+        chip.classList.remove("ws__filter-chip--on");
+        chip.setAttribute("aria-pressed", "false");
+      } else {
+        activeTypes.add(eventType);
+        chip.classList.add("ws__filter-chip--on");
+        chip.setAttribute("aria-pressed", "true");
+      }
+      onFilterChange(new Set(activeTypes));
+      updateTitle();
+      if (selectedId === null) renderList();
+    });
+    chipEls.set(eventType, chip);
+    filterRow.appendChild(chip);
+  }
+
+  sheet.appendChild(filterRow);
 
   // Scrollable content
   const content = document.createElement("div");
@@ -155,24 +206,30 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   );
   onSwipe(scrim, () => close());
 
+  function visibleWarnings(): WeatherWarning[] {
+    return warnings.filter((w) => activeTypes.has(w.eventType as SupportedEventType));
+  }
+
   function updateTitle() {
-    const n = warnings.length;
+    const visible = visibleWarnings();
+    const n = visible.length;
     if (n === 0) {
-      titleEl.textContent = "No active tornado warnings";
+      titleEl.textContent = "No active warnings";
       indicator.className = "ws__indicator ws__indicator--none";
     } else {
-      titleEl.textContent = n === 1 ? "1 active tornado warning" : `${n} active tornado warnings`;
+      titleEl.textContent = n === 1 ? "1 active warning" : `${n} active warnings`;
       indicator.className = "ws__indicator ws__indicator--active";
     }
   }
 
   function renderList() {
     content.innerHTML = "";
+    const visible = visibleWarnings();
 
-    if (warnings.length === 0) {
+    if (visible.length === 0) {
       const empty = document.createElement("p");
       empty.className = "ws__empty";
-      empty.textContent = "No active tornado warnings.";
+      empty.textContent = "No active warnings for selected types.";
       content.appendChild(empty);
       return;
     }
@@ -180,10 +237,10 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     const list = document.createElement("ul");
     list.className = "ws__list";
 
-    for (const w of warnings) {
-      const sev = warningSeverity(w);
+    for (const w of visible) {
       const { text: expiryText, urgent } = formatExpiry(w.expires);
-      const color = SEVERITY_COLORS[sev];
+      const color = warningColor(w);
+      const label = warningLabel(w);
 
       const item = document.createElement("li");
       item.className = "ws__item";
@@ -192,7 +249,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
       const badge = document.createElement("div");
       badge.className = "ws__item-badge";
       badge.style.background = color;
-      badge.textContent = SEVERITY_LABELS[sev];
+      badge.textContent = label;
 
       const sender = document.createElement("div");
       sender.className = "ws__item-sender";
@@ -222,10 +279,10 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     content.appendChild(list);
   }
 
-  function renderDetail(w: TornadoWarning) {
-    const sev = warningSeverity(w);
+  function renderDetail(w: WeatherWarning) {
     const { text: expiryText, urgent } = formatExpiry(w.expires);
-    const color = SEVERITY_COLORS[sev];
+    const color = warningColor(w);
+    const label = warningLabel(w);
 
     content.innerHTML = "";
 
@@ -246,7 +303,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
     const badge = document.createElement("div");
     badge.className = "ws__detail-badge";
     badge.style.background = color;
-    badge.textContent = SEVERITY_LABELS[sev];
+    badge.textContent = label;
     detail.appendChild(badge);
 
     const sender = document.createElement("div");
@@ -316,7 +373,7 @@ export function createWarningSheet(options: WarningSheetOptions): WarningSheetCo
   }
 
   return {
-    updateWarnings(newWarnings: TornadoWarning[]) {
+    updateWarnings(newWarnings: WeatherWarning[]) {
       warnings = [...newWarnings].sort(
         (a, b) => new Date(b.sent).getTime() - new Date(a.sent).getTime(),
       );

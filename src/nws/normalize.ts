@@ -1,21 +1,20 @@
 import type { NwsFeature } from "./schema.ts";
-import type { GeoJsonPolygon, TornadoWarning } from "./types.ts";
+import type { GeoJsonPolygon, WeatherWarning } from "./types.ts";
 
-export function normalizeFeature(feature: NwsFeature): TornadoWarning {
+export function normalizeFeature(feature: NwsFeature): WeatherWarning {
   const p = feature.properties;
   const params = p.parameters;
 
   const vtec = params?.VTEC?.[0] ?? null;
-  const detectionRaw = params?.tornadoDetection?.[0] ?? null;
-  const damageThreatRaw = params?.tornadoDamageThreat?.[0] ?? null;
+  const motion = params?.eventMotionDescription?.[0] ?? null;
 
-  const detection =
-    detectionRaw === "RADAR INDICATED" || detectionRaw === "OBSERVED" ? detectionRaw : null;
+  const detection = params?.tornadoDetection?.[0] ?? params?.flashFloodDetection?.[0] ?? null;
 
   const damageThreat =
-    damageThreatRaw === "CONSIDERABLE" || damageThreatRaw === "CATASTROPHIC"
-      ? damageThreatRaw
-      : null;
+    params?.tornadoDamageThreat?.[0] ??
+    params?.thunderstormDamageThreat?.[0] ??
+    params?.flashFloodDamageThreat?.[0] ??
+    null;
 
   const polygon: GeoJsonPolygon | null =
     feature.geometry?.type === "Polygon"
@@ -24,6 +23,7 @@ export function normalizeFeature(feature: NwsFeature): TornadoWarning {
 
   return {
     id: p.id,
+    eventType: p.event,
     vtec,
     messageType: p.messageType,
     polygon,
@@ -32,7 +32,7 @@ export function normalizeFeature(feature: NwsFeature): TornadoWarning {
     expires: p.expires,
     detection,
     damageThreat,
-    motion: params?.eventMotionDescription?.[0] ?? null,
+    motion,
     headline: p.headline ?? null,
     description: p.description,
     instruction: p.instruction ?? null,

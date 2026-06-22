@@ -1,4 +1,4 @@
-import type { TornadoWarning } from "./types.ts";
+import type { WeatherWarning } from "./types.ts";
 
 export function vtecKey(vtec: string): string | null {
   // /O.NEW.KSGF.TO.W.0023.240501T2000Z-240501T2045Z/
@@ -9,10 +9,10 @@ export function vtecKey(vtec: string): string | null {
   return `${parts[2]}.${parts[3]}.${parts[4]}.${parts[5]}`;
 }
 
-export function dedup(warnings: TornadoWarning[], now: Date = new Date()): TornadoWarning[] {
+export function dedup(warnings: WeatherWarning[], now: Date = new Date()): WeatherWarning[] {
   const nowMs = now.getTime();
-  const byKey = new Map<string, TornadoWarning>();
-  const unkeyed: TornadoWarning[] = [];
+  const byKey = new Map<string, WeatherWarning>();
+  const unkeyed: WeatherWarning[] = [];
 
   for (const w of warnings) {
     if (!w.vtec) {

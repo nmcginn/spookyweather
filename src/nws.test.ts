@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fixtureData from "./__fixtures__/alerts-active.json";
 import { NwsFeatureCollectionSchema, dedup, normalizeFeature, vtecKey } from "./nws/index.ts";
-import type { TornadoWarning } from "./nws/index.ts";
+import type { WeatherWarning } from "./nws/index.ts";
 
 // --- Schema parsing ---
 
@@ -35,6 +35,11 @@ describe("normalizeFeature", () => {
     expect(w.messageType).toBe("Alert");
     expect(w.sent).toBe("2024-05-01T20:00:00+00:00");
     expect(w.expires).toBe("2024-05-01T20:45:00+00:00");
+  });
+
+  it("extracts eventType from properties.event", () => {
+    const w = normalizeFeature(collection.features[0]!);
+    expect(w.eventType).toBe("Tornado Warning");
   });
 
   it("extracts polygon geometry", () => {
@@ -98,6 +103,7 @@ describe("normalizeFeature", () => {
           geometry: null,
           properties: {
             id: "test-id",
+            event: "Tornado Warning",
             areaDesc: "Test County",
             sent: "2024-05-01T20:00:00+00:00",
             expires: "2024-05-01T21:00:00+00:00",
@@ -141,9 +147,10 @@ const FUTURE = "2099-12-31T23:59:59+00:00";
 const PAST = "2000-01-01T00:00:00+00:00";
 const NOW = new Date("2024-05-01T21:00:00Z");
 
-function makeWarning(overrides: Partial<TornadoWarning>): TornadoWarning {
+function makeWarning(overrides: Partial<WeatherWarning>): WeatherWarning {
   return {
     id: "test-id",
+    eventType: "Tornado Warning",
     vtec: "/O.NEW.KSGF.TO.W.0001.240501T2000Z-240501T2100Z/",
     messageType: "Alert",
     polygon: null,

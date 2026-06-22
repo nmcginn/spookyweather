@@ -1,9 +1,17 @@
 import { dedup } from "./dedup.ts";
 import { normalizeFeature } from "./normalize.ts";
 import { NwsFeatureCollectionSchema } from "./schema.ts";
-import type { TornadoWarning } from "./types.ts";
+import type { WeatherWarning } from "./types.ts";
 
-const DEFAULT_URL = "https://api.weather.gov/alerts/active?event=Tornado%20Warning";
+export const SUPPORTED_EVENT_TYPES = [
+  "Tornado Warning",
+  "Severe Thunderstorm Warning",
+  "Flash Flood Warning",
+] as const;
+
+export type SupportedEventType = (typeof SUPPORTED_EVENT_TYPES)[number];
+
+const DEFAULT_URL = buildUrl(SUPPORTED_EVENT_TYPES);
 const DEFAULT_INTERVAL_MS = 60_000;
 
 // HTTP status codes we treat as transient (worth retrying with backoff)
@@ -11,17 +19,22 @@ const TRANSIENT_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
 const BASE_RETRY_MS = 15_000;
 const MAX_RETRY_MS = 5 * 60_000;
 
+function buildUrl(eventTypes: readonly string[]): string {
+  const params = eventTypes.map((e) => `event=${encodeURIComponent(e)}`).join("&");
+  return `https://api.weather.gov/alerts/active?${params}`;
+}
+
 export type PollOptions = {
   url?: string;
   intervalMs?: number;
-  onWarnings: (warnings: TornadoWarning[]) => void;
+  onWarnings: (warnings: WeatherWarning[]) => void;
   onError?: (err: Error) => void;
 };
 
 export function startPoller(options: PollOptions): () => void {
   const { url = DEFAULT_URL, intervalMs = DEFAULT_INTERVAL_MS, onWarnings, onError } = options;
   let etag: string | null = null;
-  let lastResult: TornadoWarning[] = [];
+  let lastResult: WeatherWarning[] = [];
   let timer: ReturnType<typeof setTimeout> | null = null;
   let stopped = false;
   let consecutiveErrors = 0;

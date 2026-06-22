@@ -4,6 +4,7 @@ One entry per PR, newest first. Format: `- **#N** — description.`
 
 ---
 
+- **#12** — Add Severe Thunderstorm and Flash Flood warnings alongside Tornado Warnings, with per-type colors and a filter bar to toggle which alert types are shown.
 - **#11** — Mobile usability pass: swipe gestures to open/close the drawer and SPC panel, larger touch targets, and tap-highlight suppression.
 - **#10** — Add live-site link to README, GitHub link on the live site, and auto-fit the map to active warning polygons on first load.
 - **#9** — Fix SPC tray visible on load, broken close button, and reorder sections to show active watches before the day-1 outlook.
