@@ -1,5 +1,6 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import maplibregl from "maplibre-gl";
+import type { UserLocation } from "../location.ts";
 import { startPoller } from "../nws/poller.ts";
 import type { WeatherWarning } from "../nws/types.ts";
 import type { GeoJsonPolygon } from "../nws/types.ts";
@@ -10,6 +11,7 @@ import { FILL_LAYER_ID, setupWarningLayers, updateWarnings } from "./warnings.ts
 
 const CONUS_CENTER: [number, number] = [-96, 39];
 const CONUS_ZOOM = 4;
+const USER_LOCATION_ZOOM = 7;
 const BASE_STYLE = "https://tiles.openfreemap.org/styles/liberty";
 
 export type MapControls = {
@@ -22,6 +24,7 @@ export type MapOptions = {
   onWarningsUpdate?: (warnings: WeatherWarning[]) => void;
   onSpcToggle?: () => void;
   onAboutOpen?: () => void;
+  userLocation?: UserLocation | null;
 };
 
 function polygonBounds(polygon: GeoJsonPolygon): [[number, number], [number, number]] {
@@ -62,11 +65,17 @@ function fitToWarnings(map: maplibregl.Map, warnings: WeatherWarning[]): void {
 }
 
 export function initMap(container: HTMLElement, options: MapOptions = {}): MapControls {
+  const { userLocation } = options;
+  const initialCenter: [number, number] = userLocation
+    ? [userLocation.lng, userLocation.lat]
+    : CONUS_CENTER;
+  const initialZoom = userLocation ? USER_LOCATION_ZOOM : CONUS_ZOOM;
+
   const map = new maplibregl.Map({
     container,
     style: BASE_STYLE,
-    center: CONUS_CENTER,
-    zoom: CONUS_ZOOM,
+    center: initialCenter,
+    zoom: initialZoom,
     maxZoom: 14,
     attributionControl: { compact: true },
   });
