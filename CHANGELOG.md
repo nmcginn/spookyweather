@@ -4,6 +4,7 @@ One entry per PR, newest first. Format: `- **#N** — description.`
 
 ---
 
+- **#18** — Silently center the map on the user's approximate location via IP geolocation (ipapi.co) on first load, falling back to the CONUS view if unavailable.
 - **#17** — Rebrand app from "Tornado Tracker" to "Spooky Weather Tracker" across page title, PWA manifest, about panel, and docs.
 - **#16** — Phase 7: PWA manifest + icons, offline app shell via Workbox, meta/OG tags, skip link, About panel, and enforced 50 kB gzip initial-JS budget.
 - **#12** — Add Severe Thunderstorm and Flash Flood warnings alongside Tornado Warnings, with per-type colors and a filter bar to toggle which alert types are shown.

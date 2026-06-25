@@ -1,4 +1,5 @@
 import "./style.css";
+import { fetchUserLocation } from "./location.ts";
 import type { MapControls } from "./map/index.ts";
 import type { WeatherWarning } from "./nws/types.ts";
 import { createAboutPanel } from "./ui/about-panel.ts";
@@ -27,8 +28,9 @@ const sheet = createWarningSheet({
 const spcPanel = createSpcPanel();
 const aboutPanel = createAboutPanel();
 
-import("./map/index.ts").then(({ initMap }) => {
+Promise.all([import("./map/index.ts"), fetchUserLocation()]).then(([{ initMap }, userLocation]) => {
   mapControls = initMap(mapContainer, {
+    userLocation,
     onWarningSelect: (id) => sheet.selectWarning(id),
     onWarningsUpdate: (warnings) => {
       allWarnings = warnings;
